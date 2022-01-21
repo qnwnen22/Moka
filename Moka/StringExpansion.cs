@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace System
@@ -158,6 +159,33 @@ namespace System
             }
             return text;
         }
+
+        public static string ToUnicodeDecode(this string text)
+        {
+            var splitted = Regex.Split(text, @"\\u([a-fA-F\d]{4})");
+            string outString = "";
+            foreach (var s in splitted)
+            {
+                try
+                {
+                    if (s.Length == 4)
+                    {
+                        var decoded = ((char)Convert.ToUInt16(s, 16)).ToString();
+                        outString += decoded;
+                    }
+                    else
+                    {
+                        outString += s;
+                    }
+                }
+                catch (Exception e)
+                {
+                    outString += s;
+                }
+            }
+            return outString;
+        }
+
         public static byte[] GetImageBytes(this string imageAddress)
         {
             try

@@ -43,5 +43,20 @@ namespace System.Net
             T toClass = readToEnd.ToClass<T>();
             return toClass;
         }
+
+        public static string ReadToEnd(this WebException webException, Encoding encoding = null)
+        {
+            if (encoding is null) { encoding = Encoding.UTF8; }
+            using (WebResponse webResponse = webException.Response)
+            {
+                using (Stream stream = webResponse.GetResponseStream())
+                {
+                    using (var streamReader = new StreamReader(stream, encoding))
+                    {
+                        return streamReader.ReadToEnd();
+                    }
+                }
+            }
+        }
     }
 }
