@@ -219,7 +219,6 @@ namespace System
             IEnumerable<HtmlNode> cast = selectNodes.Cast<HtmlNode>();
             List<HtmlNode> htmlNodeList = cast.ToList();
             return htmlNodeList;
-
         }
         public static List<string> GetHtmlAttributeValueList(this string html, string xpath, HtmlType htmlType)
         {
